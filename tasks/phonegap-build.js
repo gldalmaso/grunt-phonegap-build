@@ -56,8 +56,8 @@ function unlockKeys(taskRefs, callback) {
           var buildInfo = keys[platform];
 
           if (buildInfo) {
-            taskRefs.needle.put(keys[platform].link, { data: taskRefs.options.keys[platform] }, null,
-                responseHandler("Unlocking " + platform, taskRefs, unlocked, unlocked));
+                  taskRefs.needle.put(keys[platform].link, { data: taskRefs.options.keys[platform] }, null,
+                      responseHandler("Unlocking " + platform, taskRefs, unlocked, unlocked));
           } else {
             taskRefs.log.warn("No key attached to app for " + platform);
             unlocked();
@@ -80,6 +80,18 @@ function uploadZip(taskRefs, callback) {
     };
     config.multipart = true;
   }
+    if (taskRefs.options.keys) {
+        data.data.keys = {};
+        if (taskRefs.options.keys.ios && taskRefs.options.keys.ios.id) {
+            data.data.keys.ios = taskRefs.options.keys.ios;
+        }
+        if (taskRefs.options.keys.android && taskRefs.options.keys.android.id) {
+            data.data.keys.android = taskRefs.options.keys.android;
+        }
+        if (taskRefs.options.keys.winphone && taskRefs.options.keys.winphone.id) {
+            data.data.keys.winphone = taskRefs.options.keys.winphone;
+        }
+    }
 
   taskRefs.log.ok("Starting upload");
   if(taskRefs.options.appId)
